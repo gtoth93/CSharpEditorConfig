@@ -209,6 +209,15 @@ csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimenta
 csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent      # IDE2005: allow a blank line after the token in a ternary expression
 csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent     # IDE2006: allow a blank line after the token in an arrow expression
 
+# Unknown options
+dotnet_hide_advanced_members = false
+dotnet_member_insertion_location = with_other_members_of_the_same_kind
+dotnet_property_generation_behavior = prefer_throwing_properties
+dotnet_search_reference_assemblies = true
+dotnet_prefer_system_hash_code = true
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+csharp_style_prefer_simple_property_accessors = true:suggestion                                     # IDE0360: ???
+
 # Code style rules without options
 dotnet_diagnostic.ide0063.severity = warning
 
