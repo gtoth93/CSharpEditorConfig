@@ -183,8 +183,8 @@ indent_size = 4
 # Possible values: none, silent, suggestion, warning, error
 # Behavior:
 #   Visual Studio: Rule shows up in IDE
-#   Rider: Rule does not show up in IDE
-# Tags: @formatting, @vs
+#   Rider: Rule shows up in IDE if EnforceCodeStyleInBuild is set in project
+# Tags: @formatting, @rider, @vs
 dotnet_diagnostic.IDE0055.severity = warning
 
 # Description: Sets whether an open brace should be placed on the same line as preceding code, or on
