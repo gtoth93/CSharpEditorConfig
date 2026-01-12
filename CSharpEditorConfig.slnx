@@ -1,7 +1,10 @@
 ﻿<Solution>
     <Folder Name="/Solution Items/">
         <File Path=".editorconfig" />
-        <File Path="min.editorconfig" />
+        <File Path="CSharpEditorConfig.sln.DotSettings" />
+        <File Path="dotnet-tools.json" />
+        <File Path="global.json" />
+        <File Path="minimal.editorconfig" />
     </Folder>
     <Project Path="CSharpEditorConfig\CSharpEditorConfig.csproj" />
 </Solution>

@@ -12,24 +12,31 @@
 #   Code Analysis Rules (these rules check for potential bugs and code smells)
 #
 # The general structure of comments:
+#   ID (if there is one)
 #   Description
-#   Possible values
+#   Possible severities/values
 #   Behavior (for each applicable formatter)
 #   Remarks (if any)
 #   Tags (for grouping and faster searches)
 #
 # The following is a glossary of available tags, all of them follow the @tag format:
+#   @blank-line: rules related to adding/removing blank lines between code elements
 #   @braces: rules related to braces
+#   @code-quality: rules related to code quality
+#   @core: core editorconfig rules
 #   @csharpier: rules supported by CSharpier
-#   @file: file related rules
 #   @indentation: indentation related rules
+#   @language: rules related to language
 #   @formatting: formatting related rules
 #   @newline: rules related to new lines
+#   @redundant-code: rules related to removing redundant code
 #   @rider: Rider/ReSharper rules
-#   @rider-compatible: Visual Studio/dotnet-format rules that are also compatible with ReSharper/Rider
 #   @space: rules related to spacing between code elements
-#   @whitespace: rules related to removing unnecessary whitespaces
+#   @syntax-style: ReSharper/Rider syntax style rules
 #   @wrapping: rules related to line wrapping
+#   @style: Code style rules 
+#   @unnecessary-code: rules related to removing unnecessary code
+#   @vs: Visual Studio/dotnet-format rules
 
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
@@ -48,7 +55,7 @@ root = true
 #   Rider: Settings > Editor > File Encodings > Global Encoding/Project Encoding/Default encoding 
 #     for properties files, also if charset is utf-8, make sure that the 'Create UTF-8 files' 
 #     selection is the same as this setting (BOM/no BOM). 
-# Tags: @file
+# Tags: @core, @formatting
 charset = utf-8
 
 # Description: Line ending file format
@@ -59,8 +66,8 @@ charset = utf-8
 #   ReSharper: Changes line endings on formatting
 #   dotnet-format: Changes line endings on formatting
 #   CSharpier: Changes line endings on formatting
-# Remarks: Comment out this setting for 'auto'
-# Tags: @csharpier, @file, @formatting, @newline
+# Remarks: Comment out this rule for 'auto'
+# Tags: @core, @csharpier, @formatting, @newline, @rider, @vs
 # end_of_line = crlf
 
 # Description: Denotes whether file should end with a newline
@@ -70,13 +77,13 @@ charset = utf-8
 #   Rider: Adds final newline when saving or formatting, removes it when formatting with false
 #   dotnet-format: Adds final newline when formatting, removes it when false
 #   CSharpier: Unsupported, final newline is always added
-# Tags: @file, @formatting, @newline
+# Tags: @core, @formatting, @newline, @rider, @vs
 insert_final_newline = true
 
 # Description: Symbols used for indents
 # Possible values: tab, space
 # Behavior: All formatters convert between spaces and tabs on formatting
-# Tags: @csharpier, @formatting, @indentation
+# Tags: @core, @csharpier, @formatting, @indentation, @rider, @vs
 indent_style = space
 
 # Description: Number of whitespace symbols used for indents
@@ -91,7 +98,7 @@ indent_style = space
 #   dotnet-format: applies the change on formatting, regardless of indent_style or tab_width
 #   CSharpier: if indent_style = space, then it applies the change on formatting, if indent_style = tab, 
 #     then it ignores this rule
-# Tags: @csharpier, @formatting, @indentation
+# Tags: @core, @csharpier, @formatting, @indentation, @rider, @vs
 indent_size = 2
 
 # Description: Width of a single tab character (\t)
@@ -103,8 +110,8 @@ indent_size = 2
 #   Rider: if indent_style = space, this rule is ignored, if indent_style = tab, then it applies a 
 #     visual change
 #   dotnet-format: same behavior as Visual Studio
-#   CSharpier: 
-# Tags: @formatting, @indentation
+#   CSharpier: If indent_style = tab, then this rule overrides indent_size
+# Tags: @core, @formatting, @indentation, @rider, @vs
 tab_width = 2
 
 # Description: Forces hard line wrapping after the amount of characters specified.
@@ -115,13 +122,13 @@ tab_width = 2
 #     after wrapping
 #   CSharpier: Wraps after reaching max_line_length, long strings can still go over the character 
 #     limit after wrapping
-# Tags: @csharpier, @formatting, @wrapping
+# Tags: @core, @csharpier, @formatting, @rider, @wrapping
 max_line_length = 100
 
 # Description: Denotes whether whitespace is allowed at the end of lines
 # Possible values: true, false
 # Behavior: Rule is unsupported by all formatters, all of them trim trailing whitespaces
-# Tags: @formatting, @whitespace
+# Tags: @core, @formatting
 trim_trailing_whitespace = true
 
 #### End of Core EditorConfig Rules ####
@@ -132,6 +139,7 @@ trim_trailing_whitespace = true
 # Possible values: csharp, csharpscript, xml
 # Behavior: CSharpier specific, uses the selected formatter
 # Remarks: This is only needed for file types that are not recognized by CSharpier.
+# Tags: @csharpier, @formatting
 csharpier_formatter = xml
 
 # resharper_alignment_tab_fill_style = use_spaces
@@ -163,10 +171,12 @@ csharpier_formatter = xml
 #### End of XML EditorConfig Rules ####
 
 #### C# EditorConfig Rules ####
-
-
 [*.{cs,csx}]
+
 #### C# Formatting options: These options only add or remove whitespaces from the file ####
+
+# Description: See description in Core section
+# Tags: @core, @csharpier, @formatting, @indentation, @rider, @vs
 indent_size = 4
 
 # Description: IDE0055 - Fix formatting (all formatting options are related to this Roslyn analyzer rule)
@@ -174,7 +184,7 @@ indent_size = 4
 # Behavior:
 #   Visual Studio: Rule shows up in IDE
 #   Rider: Rule does not show up in IDE
-# Tags: @formatting
+# Tags: @formatting, @vs
 dotnet_diagnostic.IDE0055.severity = warning
 
 # Description: Sets whether an open brace should be placed on the same line as preceding code, or on
@@ -187,7 +197,7 @@ dotnet_diagnostic.IDE0055.severity = warning
 #     only works for empty collection initializers and object initializers
 #   Rider: anonymous_methods, anonymous_types, events, indexers, local_functions are unsupported
 #   CSharpier: unsupported, open braces follow the Allman style, they are placed on a new line.
-# Tags: @braces, @formatting, @newline, @rider-compatible
+# Tags: @braces, @formatting, @newline, @rider, @vs
 csharp_new_line_before_open_brace = all
 
 # Description: Sets whether an else keyword should be placed on the same line as the preceding close
@@ -197,7 +207,7 @@ csharp_new_line_before_open_brace = all
 #   Visual Studio: works as expected
 #   Rider: works as expected
 #   CSharpier: unsupported, places else on new line
-# Tags: @formatting, @newline, @rider-compatible
+# Tags: @formatting, @newline, @rider, @vs
 csharp_new_line_before_else = true
 
 # Description: Sets whether a catch keyword should be placed on the same line as the preceding close
@@ -207,7 +217,7 @@ csharp_new_line_before_else = true
 #   Visual Studio: works as expected
 #   Rider: works as expected
 #   CSharpier: unsupported, places catch on new line
-# Tags: @formatting, @newline, @rider-compatible
+# Tags: @formatting, @newline, @rider, @vs
 csharp_new_line_before_catch = true
 
 # Description: Sets whether a finally keyword should be placed on the same line as the preceding 
@@ -217,7 +227,7 @@ csharp_new_line_before_catch = true
 #   Visual Studio: works as expected
 #   Rider: works as expected
 #   CSharpier: unsupported, places finally on new line
-# Tags: @formatting, @newline, @rider-compatible
+# Tags: @formatting, @newline, @rider, @vs
 csharp_new_line_before_finally = true
 
 # Description: Sets whether members in object initializers should be in the same line, or separate 
@@ -235,7 +245,7 @@ csharp_new_line_before_finally = true
 #     back to false.
 #   CSharpier: unsupported, initializer members are moved to separate lines when there are 3 or more
 #     members in the list, or when max_line_length is reached
-# Tags: @formatting, @newline, @rider-compatible
+# Tags: @formatting, @newline, @rider, @vs
 csharp_new_line_before_members_in_object_initializers = true
 
 # Description: Sets whether members in anonymous types should be in the same line, or separate lines.
@@ -248,7 +258,7 @@ csharp_new_line_before_members_in_object_initializers = true
 #   Rider: unsupported, uses csharp_new_line_before_members_in_object_initializers for anonymous types
 #   CSharpier: unsupported, members are moved to separate lines when there are 3 or more members in 
 #     the list, or when max_line_length is reached
-# Tags: @formatting, @newline
+# Tags: @formatting, @newline, @vs
 csharp_new_line_before_members_in_anonymous_types = true
 
 # Description: Sets whether LINQ query clauses should be in the same line, or separate lines.
@@ -265,7 +275,7 @@ csharp_new_line_before_members_in_anonymous_types = true
 #   CSharpier: Unsupported, query clauses stay on the same line until max_line_length is reached, 
 #     after that they are moved to separate lines. Query clauses that are already on separate lines 
 #     are collapsed to a single line if the line is shorter than max_line_length.
-# Tags: @formatting, @newline, @rider-compatible
+# Tags: @formatting, @newline, @rider, @vs
 csharp_new_line_between_query_expression_clauses = true
 
 # Description: Sets whether switch case content should be indented from the case label.
@@ -276,7 +286,7 @@ csharp_new_line_between_query_expression_clauses = true
 #   Rider: Unsupported, case content is always indented, break/return indentation is governed by 
 #     resharper_indent_break_from_case
 #   CSharpier: Unsupported, case content along with break/return is always indented.
-# Tags: @formatting, @indentation
+# Tags: @formatting, @indentation, @vs
 csharp_indent_case_contents = true
 
 # Description: Sets whether switch cases should be indented from the switch statement.
@@ -287,7 +297,7 @@ csharp_indent_case_contents = true
 #   Rider: When false, case labels are not indented from the switch statement. When true case labels
 #     are indented.
 #   CSharpier: Unsupported, case labels are always indented from the switch statement.
-# Tags: @formatting, @indentation, @rider-compatible
+# Tags: @formatting, @indentation, @rider, @vs
 csharp_indent_switch_labels = true
 
 # Description: Sets whether labels should be placed at the leftmost column, one less indent than the
@@ -299,7 +309,7 @@ csharp_indent_switch_labels = true
 #     current context.
 #   Rider: Unsupported, label indentation is governed by resharper_outdent_statement_labels.
 #   CSharpier: Unsupported, labels are moved to the same indent as the current context.
-# Tags: @formatting, @indentation
+# Tags: @formatting, @indentation, @vs
 csharp_indent_labels = no_change
 
 # Description: Sets whether block content should be indented or not.
@@ -308,7 +318,7 @@ csharp_indent_labels = no_change
 #   Visual Studio: When false, block contents are not indented. When true, block contents are indented.
 #   Rider: Unsupported, multiline block contents are always indented.
 #   CSharpier: Unsupported, block contents are always indented.
-# Tags: @formatting, @indentation
+# Tags: @formatting, @indentation, @vs
 csharp_indent_block_contents = true
 
 # Description: Sets whether braces should be indented or not.
@@ -319,7 +329,7 @@ csharp_indent_block_contents = true
 #     then this option is ignored. If csharp_new_line_before_open_brace = none, then curly braces are
 #     indented (Whitesmiths style)
 #   CSharpier: Unsupported, curly braces are never indented
-# Tags: @braces, @formatting, @indentation, @rider-compatible
+# Tags: @braces, @formatting, @indentation, @rider, @vs
 csharp_indent_braces = false
 
 # Description: Sets whether case contents should be indented when in a block or not.
@@ -330,7 +340,7 @@ csharp_indent_braces = false
 #   Rider: When false, case contents and curly braces are not indented. When true, case contents and
 #     curly braces are indented.
 #   CSharpier: Unsupported, case contents and curly braces are not indented.
-# Tags: @formatting, @indentation, @rider-compatible
+# Tags: @formatting, @indentation, @rider, @vs
 csharp_indent_case_contents_when_block = false
 
 # Description: Sets whether there should be a space between a cast and the value or not.
@@ -341,7 +351,7 @@ csharp_indent_case_contents_when_block = false
 #   Rider: When false, spaces are removed between the cast and the value. When true, a space is added
 #     between the cast and the value.
 #   CSharpier: Unsupported, spaces are removed between the cast and the value.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_after_cast = false
 
 # Description: Sets whether there should be a space after keywords in control flow statements or not
@@ -353,7 +363,7 @@ csharp_space_after_cast = false
 #   Rider: When false, spaces are removed after keywords in control flow statements. When true, a 
 #     space is added after the keyword.
 #   CSharpier: Unsupported, a space is added after keywords in control flow statements
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_after_keywords_in_control_flow_statements = true
 
 # Description: Sets whether there should be a space between parentheses.
@@ -364,7 +374,7 @@ csharp_space_after_keywords_in_control_flow_statements = true
 #   Rider: When false, spaces are removed from parentheses. When specifying a comma separated list, 
 #     spaces are added to parentheses of the specified code elements.
 #   CSharpier: Unsupported, spaces are removed from parentheses.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_parentheses = false
 
 # Description: Sets whether there should be a space before the colon in inheritance clauses or not.
@@ -375,7 +385,7 @@ csharp_space_between_parentheses = false
 #   Rider: When false, spaces are removed before the colon in inheritance clauses. When true, a space
 #     is added before the colon.
 #   CSharpier: Unsupported, a space is added before the colon in inheritance clauses.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_before_colon_in_inheritance_clause = true
 
 # Description: Sets whether there should be a space before the colon in inheritance clauses or not.
@@ -386,7 +396,7 @@ csharp_space_before_colon_in_inheritance_clause = true
 #   Rider: When false, spaces are removed after the colon in inheritance clauses. When true, a space
 #     is added after the colon.
 #   CSharpier: Unsupported, a space is added after the colon in inheritance clauses.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_after_colon_in_inheritance_clause = true
 
 # Description: Sets whether there should be spaces around binary operators or not.
@@ -398,7 +408,7 @@ csharp_space_after_colon_in_inheritance_clause = true
 #   Rider: When before_and_after, spaces are added around binary operators. When none, spaces are 
 #     removed around binary operators. When ignore, it has the same behavior as before_and_after.
 #   CSharpier: Unsupported, spaces are added around binary operators.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_around_binary_operators = before_and_after
 
 # Description: Sets whether there should be spaces between the method declaration parentheses and 
@@ -411,7 +421,7 @@ csharp_space_around_binary_operators = before_and_after
 #     list. When true, spaces are added between the parentheses and the parameter list.
 #   CSharpier: Unsupported, spaces are removed between the method declaration parentheses and the 
 #     parameter list.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_method_declaration_parameter_list_parentheses = false
 
 # Description: Sets whether there should be a space between the method declaration parentheses when 
@@ -423,7 +433,7 @@ csharp_space_between_method_declaration_parameter_list_parentheses = false
 #   Rider: When false, spaces are removed between the method declaration parentheses. When true, a 
 #     space is added between the method declaration parentheses.
 #   CSharpier: Unsupported, spaces are removed between the method declaration parentheses.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
 
 # Description: Sets whether there should be a space between the method declaration name and the 
@@ -438,7 +448,7 @@ csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
 #     parenthesis.
 #   CSharpier: Unsupported, spaces are removed between the method declaration name and the opening 
 #     parenthesis.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_method_declaration_name_and_open_parenthesis = false
 
 # Description: Sets whether there should be spaces between the method call parentheses and the 
@@ -452,7 +462,7 @@ csharp_space_between_method_declaration_name_and_open_parenthesis = false
 #     When true, spaces are added between the method call parentheses and the parameter list.
 #   CSharpier: Unsupported, spaces are removed between the method call parentheses and the parameter 
 #     list.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_method_call_parameter_list_parentheses = false
 
 # Description: Sets whether there should be a space between the method call parentheses when it is 
@@ -464,7 +474,7 @@ csharp_space_between_method_call_parameter_list_parentheses = false
 #   Rider: When false, spaces are removed between the method call parentheses. When true, a space is
 #     added between the method call parentheses.
 #   CSharpier: Unsupported, spaces are removed between the method call parentheses.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_method_call_empty_parameter_list_parentheses = false
 
 # Description: Sets whether there should be a space between the method call name and the opening 
@@ -478,7 +488,7 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 #     When true, a space is added between the method call name and the opening parenthesis.
 #   CSharpier: Unsupported, spaces are removed between the method call name and the opening 
 #     parenthesis.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_method_call_name_and_opening_parenthesis = false
 
 # Description: Sets whether there should be spaces after commas.
@@ -488,7 +498,7 @@ csharp_space_between_method_call_name_and_opening_parenthesis = false
 #     commas.
 #   Rider: When false, spaces are removed after commas. When true, spaces are added after commas.
 #   CSharpier: Unsupported, spaces are added after commas.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_after_comma = true
 
 # Description: Sets whether there should be spaces before commas.
@@ -498,7 +508,7 @@ csharp_space_after_comma = true
 #     commas.
 #   Rider: When false, spaces are removed before commas. When true, spaces are added before commas.
 #   CSharpier: Unsupported, spaces are removed before commas.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_before_comma = false
 
 # Description: Sets whether there should be spaces after dots.
@@ -509,7 +519,7 @@ csharp_space_before_comma = false
 #     then spaces are removed after dots, if csharp_space_before_dot = true, then spaces are added 
 #     before and after dots.
 #   CSharpier: Unsupported, spaces are removed after dots.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_after_dot = false
 
 # Description: Sets whether there should be spaces before dots.
@@ -520,7 +530,7 @@ csharp_space_after_dot = false
 #     then spaces are removed before dots, if csharp_space_after_dot = true, then spaces are added 
 #     before and after dots.
 #   CSharpier: Unsupported, spaces are removed before dots.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_before_dot = false
 
 # Description: Sets whether there should be a space after the semicolons in for statements.
@@ -531,7 +541,7 @@ csharp_space_before_dot = false
 #   Rider: When false, spaces are removed after the semicolons in for statements. When true, spaces
 #     are added after the semicolons in for statements.
 #   CSharpier: Unsupported, spaces are added after the semicolons in for statements.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_after_semicolon_in_for_statement = true
 
 # Description: Sets whether there should be a space before the semicolons in for statements.
@@ -542,7 +552,7 @@ csharp_space_after_semicolon_in_for_statement = true
 #   Rider: When false, spaces are removed before the semicolons in for statements. When true, spaces
 #     are added before the semicolons in for statements.
 #   CSharpier: Unsupported, spaces are removed before the semicolons in for statements.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_before_semicolon_in_for_statement = false
 
 # Description: Sets whether extra spaces should be removed from declaration statements.
@@ -553,7 +563,7 @@ csharp_space_before_semicolon_in_for_statement = false
 #   Rider: Unsupported, uses csharp_space_around_binary_operators to add or remove spaces around 
 #     declaration statements, and resharper_extra_spaces controls whether to remove extra spaces.
 #   CSharpier: Unsupported, removes extra spaces from declaration statements.
-# Tags: @formatting, @space
+# Tags: @formatting, @space, @vs
 csharp_space_around_declaration_statements = false
 
 # Description: Sets whether there should be a space before opening square brackets.
@@ -564,7 +574,7 @@ csharp_space_around_declaration_statements = false
 #   Rider: When false, spaces are removed before opening square brackets. When true, a space is added
 #     before opening square brackets.
 #   CSharpier: Unsupported, spaces are removed before opening square brackets.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_before_open_square_brackets = false
 
 # Description: Sets whether there should be a space between empty square brackets.
@@ -575,7 +585,7 @@ csharp_space_before_open_square_brackets = false
 #   Rider: When false, spaces are removed between the square brackets. When true, a space is added 
 #     between square brackets.
 #   Csharpier: Unsupported, spaces are removed between the square brackets.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_empty_square_brackets = false
 
 # Description: Sets whether there should be spaces between square brackets and their content (index, 
@@ -587,7 +597,7 @@ csharp_space_between_empty_square_brackets = false
 #   Rider: When false, spaces are removed between the square brackets and their content. When true, 
 #     spaces are added between the square brackets and their content.
 #   CSharpier: Unsupported, spaces are removed between the square brackets and their content.
-# Tags: @formatting, @rider-compatible, @space
+# Tags: @formatting, @rider, @space, @vs
 csharp_space_between_square_brackets = false
 
 # Description: Sets whether statements and member declaration should be left on the same line.
@@ -598,7 +608,7 @@ csharp_space_between_square_brackets = false
 #     on separate lines are not collapsed to a single line.
 #   Rider: Unsupported, statements on the same line are moved to separate lines.
 #   CSharpier: Unsupported, statements on the same line are moved to separate lines.
-# Tags: @formatting, @wrapping
+# Tags: @formatting, @vs, @wrapping
 csharp_preserve_single_line_statements = false
 
 # Description: Sets whether single line blocks should be kept on the same line.
@@ -612,7 +622,7 @@ csharp_preserve_single_line_statements = false
 #     line.
 #   CSharpier: Unsupported, single line blocks are collapsed to a single line if the block is not 
 #     longer than max_line_length. Auto property blocks are always collapsed to a single line.
-# Tags: @formatting, @rider-compatible, @wrapping
+# Tags: @formatting, @rider, @wrapping, @vs
 csharp_preserve_single_line_blocks = true
 
 #### ReSharper rules: Blank Lines ####
@@ -628,12 +638,13 @@ csharp_preserve_single_line_blocks = true
 # Possible values: an integer (usually in the range of 0-2)
 # Behavior:
 #   Rider: Adds or removes blank lines before and after region, if resharper_keep_blank_lines_in_declarations 
-#     is higher than resharper_blank_lines_around_region, then resharper_keep_blank_lines_in_declarations 
-#     takes precedence.
+#     is higher than resharper_blank_lines_around_region, then it will override this rule when
+#     removing blank lines.
 #   CSharpier: If there are multiple blank lines before the region, one blank line is kept. If there
 #     are multiple blank lines after the region, two blank lines are kept. If there are no blank 
-#     lines before or after the region, no blank lines are added.
-# Tags: @formatting, @newline, @rider
+#     lines before the region, one blank line is added. If there are no blank lines after the region,
+#     no blank lines are added.
+# Tags: @blank-line, @formatting, @newline, @rider
 resharper_blank_lines_around_region = 1
 
 # Description: Sets how many blank lines should be inside a region.
@@ -644,13 +655,18 @@ resharper_blank_lines_around_region = 1
 #     lines are kept. If there are multiple blank lines before the endregion preprocessor directive, 
 #     one blank line is kept. If there are no blank lines after the region or before the endregion, 
 #     no blank lines are added.
-# Tags: @formatting, @newline, @rider
+# Tags: @blank-line, @formatting, @newline, @rider
 resharper_blank_lines_inside_region = 1
 
 # Description: Sets how many blank lines should be before a single line comment.
 # Possible values: an integer (usually in the range of 0-2)
 # Behavior:
-#   Rider: 
+#   Rider: Adds or removes blank lines before single line comments. If resharper_keep_blank_lines_in_declarations
+#     or resharper_keep_blank_lines_in_code is higher than resharper_blank_lines_before_single_line_comment,
+#     then they will override this rule when removing blank lines.
+#   CSharpier: If there multiple multiple blank lines before the comment, then one blank line is kept.
+#     If there is no blank line before the comment, then no blank line is added.
+# Tags: @blank-line, @formatting, @newline, @rider
 resharper_blank_lines_before_single_line_comment = 0
 resharper_keep_blank_lines_in_declarations = 1
 # resharper_remove_blank_lines_near_braces_in_declarations = true
@@ -996,6 +1012,78 @@ resharper_keep_blank_lines_in_code = 1
 # resharper_space_after_operator_keyword = true
 # resharper_space_within_slice_pattern = true
 
+#### C# Code Style Rules: These rules change code that can be written in multiple ways ####
+
+# Visual Studio severities: none, silent, suggestion, warning, error
+# Rider severities: none, hint, suggestion, warning, error
+# For compatibility reasons, 'silent' and 'hint' are not used in this section (there may be some 
+# exceptions, mainly ones that only show up in IDE, and cannot be quick fixed with a formatter)
+# IDExxxx rules normally do not show up in Rider, however, when setting EnforceCodeStyleInBuild,
+# the rules do show up.
+
+# ID: IDE0001
+# Description: Type name qualification can be simplified if a using directive is already in the file.
+# Possible severities: none, suggestion, warning, error
+# Possible values (resharper_prefer_qualified_reference): true, false
+# Behavior:
+#   Visual Studio: Shows up in IDE, removes unnecessary type name qualifications on code cleanup if
+#     cleanup profile has the 'Fix analyzer warnings and errors set in EditorConfig' or the 'Fix all
+#     warnings and errors set in EditorConfig' flag. Does not work with EnforceCodeStyleInBuild.
+#   Rider: Has equivalent rule, shows up in IDE, removes unnecessary type name qualifications on code
+#     cleanup if cleanup profile has the 'Arrange qualifiers' flag. Setting resharper_prefer_qualified_reference
+#     to true disables the rule.
+# Tags: @redundant-code, @rider, @style, @syntax-style, @unnecessary-code, @vs
+dotnet_diagnostic.IDE0001.severity = silent
+resharper_redundant_name_qualifier_highlighting = warning
+resharper_prefer_qualified_reference = false
+
+# ID: IDE0002
+# Description: Member access qualification can be removed if used within the class.
+# Possible severities: none, suggestion, warning, error
+# Possible values (resharper_static_members_qualify_with): current_type, declared_type
+# Possible values (resharper_static_members_qualify_members): none, all, comma separated list of one
+#   or more of the following: field, property, event, method
+# Behavior:
+#   Visual Studio: Shows up in IDE, removes unnecessary member access qualifications on code cleanup 
+#     if cleanup profile has the 'Fix analyzer warnings and errors set in EditorConfig' or the 'Fix 
+#     all warnings and errors set in EditorConfig' flag. Does not work with EnforceCodeStyleInBuild.
+#   Rider: Has equivalent rule, shows up in IDE, removes unnecessary member access qualifications on
+#     code cleanup if cleanup profile has the 'Arrange qualifiers' flag. Setting resharper_static_members_qualify_members
+#     to anything other than none will require qualifiers for the specified static members.
+# Tags: @rider, @style, @syntax-style, @unnecessary-code, @vs
+dotnet_diagnostic.IDE0002.severity = silent
+resharper_arrange_static_member_qualifier_highlighting = warning
+resharper_static_members_qualify_with = declared_type
+resharper_static_members_qualify_members = none
+
+# ID: IDE0003, IDE0009
+# Description: Sets this. preferences for fields, properties, methods and events.
+# Possible values/severities: true, false : none, suggestion, warning, error
+# Possible values (resharper_instance_members_qualify_declared_in): this_class, base_class
+# Behavior:
+#   Visual Studio: Shows up in IDE, adds/removes this. qualifiers on code cleanup if cleanup profile
+#     has the 'Add this or Me qualification' flag.
+#   Rider: Shows up in IDE, adds/removes this. qualifiers on code cleanup if cleanup profile has the
+#     'Arrange qualifiers' flag. Only works if all four rules have the same severity.
+# Tags: @language, @rider, @style, @syntax-style, @vs
+dotnet_style_qualification_for_field = false:warning
+dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
+resharper_instance_members_qualify_declared_in = this_class, base_class
+
+# ID: IDE0004
+# Description: Removes unnecessary type casts.
+# Possible severities: none, suggestion, warning, error
+# Behavior:
+#   Visual Studio: Shows up in IDE, removes unnecessary casts on code cleanup if cleanup profile has
+#     the 'Remove unnecessary casts' flag.
+#   Rider: Has equivalent rule, removes unnecessary casts on code cleanup if cleanup profile has the
+#     'Remove code redundancies' flag.
+# Tags: @redundant-code, @rider, @style, @unnecessary-code, @vs
+dotnet_diagnostic.IDE0004.severity = warning
+resharper_redundant_cast_highlighting = warning
+
 # Organize usings
 # Code style rules masquerading as formatting rules
 # Visual Studio: only applies on code cleanup, not on formatting, and only if cleanup profile includes the 'Sort Imports or usings' fixer
@@ -1010,16 +1098,6 @@ dotnet_separate_import_directive_groups = false
 # rider compat
 file_header_template = unset
 dotnet_diagnostic.IDE0073.severity = silent
-
-# this. and Me. preferences
-dotnet_style_qualification_for_event = false:silent
-dotnet_style_qualification_for_field = false:silent
-dotnet_style_qualification_for_method = false:silent
-dotnet_style_qualification_for_property = false:silent
-# dotnet_style_qualification_for_event = false:suggestion
-# dotnet_style_qualification_for_field = false:suggestion
-# dotnet_style_qualification_for_method = false:suggestion
-# dotnet_style_qualification_for_property = false:suggestion
 
 # Language keywords vs BCL types preferences
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
@@ -1430,8 +1508,6 @@ dotnet_search_reference_assemblies = true
 # Rider uses csharp_style_var_for_built_in_types to set var usage for built in types. The equivalent rule is resharper_for_built_in_types.
 # Rider uses csharp_style_var_when_type_is_apparent to set var usage for simple types. The equivalent rule is resharper_for_simple_types.
 # Rider uses csharp_style_var_elsewhere to set var usage for other types. The equivalent rule is resharper_for_other_types
-# Rider uses dotnet_style_qualification_for_event, dotnet_style_qualification_for_field, dotnet_style_qualification_for_method,
-# and dotnet_style_qualification_for_property to add 'this.' qualifier to instance members. The equivalent rule is resharper_instance_members_qualify_members.
 # Rider uses dotnet_style_predefined_type_for_locals_parameters_members to use keyword types for locals, parameters and members.
 # The equivalent rule is resharper_builtin_type_reference_style.
 # Rider uses dotnet_style_predefined_type_for_member_access to use keyword types for member access expressions. The equivalent
@@ -1449,11 +1525,7 @@ dotnet_search_reference_assemblies = true
 # resharper_use_roslyn_logic_for_evident_types = false
 # resharper_prefer_separate_deconstructed_variables_declaration = false
 # resharper_prefer_explicit_discard_declaration = false
-# resharper_instance_members_qualify_declared_in = this_class, base_class
-# resharper_static_members_qualify_with = declared_type
-# resharper_static_members_qualify_members = none
 # resharper_builtin_type_apply_to_native_integer = false
-# resharper_prefer_qualified_reference = false
 # resharper_qualified_using_at_nested_scope = false
 # resharper_allow_alias = true
 # resharper_can_use_global_alias = true
@@ -1777,8 +1849,6 @@ dotnet_search_reference_assemblies = true
 # resharper_arrange_object_creation_when_type_evident_highlighting = suggestion
 # resharper_arrange_object_creation_when_type_not_evident_highlighting = hint
 # resharper_arrange_redundant_parentheses_highlighting = hint
-# resharper_arrange_static_member_qualifier_highlighting = hint
-# resharper_arrange_this_qualifier_highlighting = hint
 # resharper_arrange_trailing_comma_in_multiline_lists_highlighting = hint
 # resharper_arrange_trailing_comma_in_singleline_lists_highlighting = hint
 # resharper_arrange_type_member_modifiers_highlighting = hint
@@ -2301,7 +2371,6 @@ dotnet_search_reference_assemblies = true
 # resharper_redundant_bool_compare_highlighting = warning
 # resharper_redundant_caller_argument_expression_default_value_highlighting = warning
 # resharper_redundant_case_label_highlighting = warning
-# resharper_redundant_cast_highlighting = warning
 # resharper_redundant_catch_clause_highlighting = warning
 # resharper_redundant_check_before_assignment_highlighting = warning
 # resharper_redundant_collection_copy_call_highlighting = warning
@@ -2343,7 +2412,6 @@ dotnet_search_reference_assemblies = true
 # resharper_redundant_me_qualifier_highlighting = warning
 # resharper_redundant_my_base_qualifier_highlighting = warning
 # resharper_redundant_my_class_qualifier_highlighting = warning
-# resharper_redundant_name_qualifier_highlighting = warning
 # resharper_redundant_not_null_constraint_highlighting = warning
 # resharper_redundant_nullable_annotation_on_reference_type_constraint_highlighting = warning
 # resharper_redundant_nullable_annotation_on_type_constraint_has_non_nullable_base_type_highlighting = warning

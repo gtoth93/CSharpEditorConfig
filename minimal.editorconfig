@@ -24,11 +24,10 @@ trim_trailing_whitespace = true
 [*.{xml,config,csproj,props,slnx,targets,xaml}]
 csharpier_formatter = xml
 
-[*.cs]
-csharpier_formatter = csharp
-indent_size = 4
+[*.{cs,csx}]
 
-#### C# Formatting options ####
+#### C# Formatting rules ####
+indent_size = 4
 
 # If you use CSharpier for formatting, then you can delete this entire section except the Roslyn
 # analyzer rule.
@@ -36,19 +35,19 @@ indent_size = 4
 # if you use CSharpier or ReSharper/Rider for formatting, then set this to 'none'
 dotnet_diagnostic.IDE0055.severity = warning
 
-# New-line Options
+# New-line Rules
 csharp_new_line_before_open_brace = all # Allman style, set to none for K&R
 csharp_new_line_before_else = true
 csharp_new_line_before_catch = true
 csharp_new_line_before_finally = true
 
-# Set these two options to the same value for compatibility with ReSharper/Rider
+# Set these two rules to the same value for compatibility with ReSharper/Rider
 csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_members_in_anonymous_types = true
 
 csharp_new_line_between_query_expression_clauses = true
 
-# Indentation Options
+# Indentation Rules
 # Leave both values as true for compatibility with ReSharper/Rider
 csharp_indent_case_contents = true
 resharper_indent_break_from_case = true
@@ -65,7 +64,7 @@ csharp_indent_block_contents = true
 csharp_indent_braces = false
 csharp_indent_case_contents_when_block = false
 
-# Spacing Options
+# Spacing Rules
 csharp_space_after_cast = false
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_space_between_parentheses = false
@@ -89,7 +88,31 @@ csharp_space_before_open_square_brackets = false
 csharp_space_between_empty_square_brackets = false
 csharp_space_between_square_brackets = false
 
-# Wrapping Options
+# Wrapping Rules
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
 
+#### C# Code Style Rules ####
+
+# Severities: none, suggestion, warning, error (with some exceptions)
+
+# IDE0001: Simplify name
+dotnet_diagnostic.IDE0001.severity = silent
+resharper_redundant_name_qualifier_highlighting = warning
+
+# IDE0002: Simplify member access
+dotnet_diagnostic.IDE0002.severity = silent
+resharper_arrange_static_member_qualifier_highlighting = warning
+resharper_static_members_qualify_with = declared_type
+resharper_static_members_qualify_members = none
+
+# IDE0003, IDE0009: this and Me preferences
+dotnet_style_qualification_for_field = false:warning
+dotnet_style_qualification_for_property = false:warning
+dotnet_style_qualification_for_method = false:warning
+dotnet_style_qualification_for_event = false:warning
+resharper_instance_members_qualify_declared_in = this_class, base_class
+
+# IDE0004: Remove unnecessary cast
+dotnet_diagnostic.IDE0004.severity = warning
+resharper_redundant_cast_highlighting = warning

@@ -46,6 +46,8 @@ This .editorconfig file focuses on C# (and maybe a bit of XML), so F# rules, VB 
 
 ## Shortcomings of formatters
 
+Unfortunately, none of the current formatters are perfect, here is a list of the major flaws of each of them.
+
 ### Visual Studio/dotnet-format
 - max_line_length is not supported, long lines are not wrapped
 - Inconsistent rules, some rules are formatting rules when they should be code style rules, and some rules are code style rules when they should be formatting rules.

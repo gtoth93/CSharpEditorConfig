@@ -10,6 +10,7 @@
 #pragma warning disable IDE0059
 #pragma warning disable IDE0060
 #pragma warning disable IDE0300
+#pragma warning disable IDE1006
 // ReSharper disable ConvertToAutoProperty
 // ReSharper disable ConvertToConstant.Local
 // ReSharper disable ConvertToLambdaExpression
@@ -537,9 +538,7 @@ public class CSharpier
         protected abstract void Method1();
 
         #region Region Description
-
         protected abstract void Method2();
-
         #endregion
 
         protected abstract void Method3();
