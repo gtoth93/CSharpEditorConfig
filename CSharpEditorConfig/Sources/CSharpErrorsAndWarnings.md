@@ -1,4 +1,4 @@
-﻿# Generated with [GenerateCSharpErrors](https://github.com/thomaslevesque/GenerateCSharpErrors) by [Thomas Levesque](https://github.com/thomaslevesque)
+# Generated with [GenerateCSharpErrors](https://github.com/thomaslevesque/GenerateCSharpErrors) by [Thomas Levesque](https://github.com/thomaslevesque)
 
 *Parsed from the [Roslyn source code](https://github.com/dotnet/roslyn) using Roslyn.*
 
