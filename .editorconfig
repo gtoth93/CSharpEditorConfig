@@ -68,7 +68,7 @@ charset = utf-8
 #   CSharpier: Changes line endings on formatting
 # Remarks: Comment out this rule for 'auto'
 # Tags: @core, @csharpier, @formatting, @newline, @rider, @vs
-# end_of_line = crlf
+end_of_line = lf
 
 # Description: Denotes whether file should end with a newline
 # Possible values: true, false
